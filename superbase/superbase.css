@@ -1,42 +1,40 @@
-/* ========================================= VARIÁVEIS & TOKENS ========================================= */
+/* ========================================= VARIÁVEIS — LAGO & PATO ========================================= */
 :root {
-  /* Cores Principais */
-  --cor-primaria: #2563eb;
-  --cor-primaria-hover: #1d4ed8;
-  --cor-primaria-suave: #dbeafe;
-  --cor-primaria-fundo: #eff6ff;
-  --cor-escura: #0f172a;
-  --cor-destaque-claro: #60a5fa;
+  /* Tons de Lago e Água */
+  --lago-profundo: #082f38;
+  --lago-medio: #0f4c5c;
+  --lago-claro: #1b7a8c;
+  --agua-superficie: #d8f3dc;
+  --agua-brilho: #95d5b2;
+  --fundo-lago: #e6f4f1;
+  --card-lago: #ffffff;
+  --card-hover: #f2fbf8;
 
-  /* Neutros & Superfícies */
-  --cor-fundo: #f1f5f9;
-  --cor-superficie: #ffffff;
-  --cor-superficie-hover: #f8fafc;
-  --cor-borda: #cbd5e1;
-  --cor-borda-suave: #e2e8f0;
+  /* Tons de Pato (Bico, Penas Douradas e Patinhas) */
+  --pato-ouro: #f4a261;
+  --pato-bico: #e76f51;
+  --pato-bico-escuro: #c8553d;
+  --pato-creme: #fff8e7;
 
-  /* Textos */
-  --texto-principal: #1e293b;
-  --texto-secundario: #475569;
-  --texto-suave: #64748b;
-  --texto-claro: #94a3b8;
+  /* Textos e Bordas */
+  --texto-lago: #0b252c;
+  --texto-secundario: #355f6b;
+  --texto-suave: #5c838e;
+  --texto-claro: #b7e4c7;
   --texto-inverso: #ffffff;
+  --borda-lago: #b7d7d0;
+  --borda-suave: #d8ebe6;
 
-  /* Botões Secundários */
-  --cor-neutro: #64748b;
-  --cor-neutro-hover: #475569;
-
-  /* Tipografia, Bordas & Sombras */
   --fonte-base: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-  --raio-pequeno: 4px;
-  --raio-medio: 7px;
-  --raio-grande: 12px;
+  --raio-pequeno: 5px;
+  --raio-medio: 9px;
+  --raio-grande: 14px;
   --raio-pilula: 9999px;
-  --sombra-card: 0 3px 12px rgba(15, 23, 42, 0.06);
+  --sombra-lago: 0 8px 24px rgba(8, 47, 56, 0.08);
   --transicao-padrao: 0.25s ease;
 }
 
-/* ========================================= CONFIGURAÇÕES GERAIS ========================================= */
+/* ========================================= BASE ========================================= */
 *,
 *::before,
 *::after {
@@ -47,8 +45,11 @@
 
 body {
   font-family: var(--fonte-base);
-  background-color: var(--cor-fundo);
-  color: var(--texto-principal);
+  background:
+    radial-gradient(circle at 12% 15%, rgba(244, 162, 97, 0.16), transparent 28%),
+    radial-gradient(circle at 88% 12%, rgba(27, 122, 140, 0.16), transparent 32%),
+    linear-gradient(180deg, #dff1ee 0%, var(--fundo-lago) 55%, #cce7e2 100%);
+  color: var(--texto-lago);
   line-height: 1.6;
   min-height: 100vh;
   display: flex;
@@ -56,16 +57,17 @@ body {
 }
 
 code {
-  background-color: var(--cor-borda-suave);
-  color: var(--cor-primaria);
-  padding: 0.2rem 0.4rem;
+  background-color: var(--agua-superficie);
+  color: var(--lago-profundo);
+  padding: 0.2rem 0.45rem;
   border-radius: var(--raio-pequeno);
   font-size: 0.85em;
+  font-weight: 600;
 }
 
 /* ========================================= CABEÇALHO ========================================= */
 .portal-header {
-  background-color: var(--cor-escura);
+  background: linear-gradient(90deg, var(--lago-profundo), var(--lago-medio));
   color: var(--texto-inverso);
   padding: 1.25rem 7%;
   display: flex;
@@ -73,353 +75,329 @@ code {
   align-items: center;
   flex-wrap: wrap;
   gap: 1.25rem;
+  border-bottom: 3px solid var(--pato-ouro);
 }
 
 .marca {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.85rem;
 }
 
 .simbolo {
   font-size: 2.5rem;
   line-height: 1;
+  background: var(--pato-creme);
+  padding: 0.35rem 0.5rem;
+  border-radius: var(--raio-medio);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .marca h1 {
-  font-size: 1.375rem;
+  font-size: 1.4rem;
   line-height: 1.2;
+  letter-spacing: 1px;
 }
 
 .submarca {
   color: var(--texto-claro);
-  font-size: 0.8125rem;
+  font-size: 0.82rem;
 }
 
 .portal-nav {
   display: flex;
-  gap: 0.9375rem;
+  gap: 0.8rem;
   flex-wrap: wrap;
 }
 
 .portal-nav a {
   color: var(--texto-inverso);
   text-decoration: none;
-  font-size: 0.875rem;
-  padding: 0.5rem 0.75rem;
-  border-radius: 6px;
-  transition: background-color var(--transicao-padrao);
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 0.5rem 0.9rem;
+  border-radius: var(--raio-pequeno);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: background-color var(--transicao-padrao), border-color var(--transicao-padrao);
 }
 
 .portal-nav a:hover,
 .portal-nav a:focus-visible {
-  background-color: var(--cor-primaria);
+  background-color: var(--pato-bico);
+  border-color: var(--pato-ouro);
   outline: none;
 }
 
-/* ========================================= CONTEÚDO PRINCIPAL & CARDS ========================================= */
+/* ========================================= CONTEÚDO PRINCIPAL ========================================= */
 main {
-  width: min(90%, 1150px);
-  margin: 2.25rem auto;
+  width: min(92%, 1180px);
+  margin: 2rem auto;
   flex: 1;
 }
 
-/* Base compartilhada entre os cards */
-.bloco-conceito,
-.crud-form,
-.lista-jogadores {
-  background-color: var(--cor-superficie);
-  padding: 1.5625rem;
-  border-radius: var(--raio-grande);
-  box-shadow: var(--sombra-card);
-}
-
-/* ========================================= INTRODUÇÃO ========================================= */
 .introducao {
-  background: linear-gradient(135deg, var(--cor-primaria), var(--cor-escura));
+  background: linear-gradient(135deg, var(--lago-medio), var(--lago-profundo));
   color: var(--texto-inverso);
-  padding: 1.875rem;
+  padding: 1.75rem;
   border-radius: var(--raio-grande);
-  margin-bottom: 1.5625rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--sombra-lago);
+  border-left: 6px solid var(--pato-ouro);
 }
 
 .introducao h2 {
-  font-size: 1.625rem;
-  margin-bottom: 0.75rem;
-}
-
-.introducao p {
-  color: var(--cor-primaria-suave);
-}
-
-/* ========================================= BLOCOS EXPLICATIVOS ========================================= */
-.bloco-conceito {
-  margin-bottom: 1.5625rem;
-  border-left: 5px solid var(--cor-primaria);
-}
-
-.bloco-conceito h3 {
-  color: var(--cor-primaria-hover);
-  margin-bottom: 0.9375rem;
-  font-size: 1.25rem;
-}
-
-.bloco-conceito p {
-  margin-bottom: 0.75rem;
-}
-
-.bloco-conceito ul {
-  padding-left: 1.5625rem;
-  margin-bottom: 0.9375rem;
-}
-
-.bloco-conceito li {
+  font-size: 1.55rem;
   margin-bottom: 0.5rem;
 }
 
-/* ========================================= FORMULÁRIOS ========================================= */
+.introducao p {
+  color: var(--agua-superficie);
+}
+
+.status-lago {
+  margin-top: 0.9rem;
+  display: inline-block;
+  padding: 0.35rem 0.8rem;
+  border-radius: var(--raio-pilula);
+  background-color: rgba(255, 255, 255, 0.14);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+/* ========================================= LAYOUT & PAINEL AUTOMÁTICO ========================================= */
 .crud-layout {
   display: grid;
-  grid-template-columns: 350px 1fr;
-  gap: 1.5625rem;
+  grid-template-columns: 360px 1fr;
+  gap: 1.5rem;
   align-items: start;
-  margin-bottom: 1.5625rem;
 }
 
-.crud-form h3 {
-  color: var(--cor-primaria-hover);
-  margin-bottom: 1.25rem;
-}
-
-.crud-form label {
-  display: block;
-  font-weight: 600;
-  margin-top: 0.9375rem;
-  margin-bottom: 0.4375rem;
-  font-size: 0.875rem;
-}
-
-.crud-form input:not([type="color"]) {
-  width: 100%;
-  padding: 0.6875rem;
-  border: 1px solid var(--cor-borda);
-  border-radius: var(--raio-medio);
-  font-family: inherit;
-  font-size: 0.875rem;
-  color: var(--texto-principal);
-  transition: border-color var(--transicao-padrao), box-shadow var(--transicao-padrao);
-}
-
-.crud-form input:not([type="color"]):focus {
-  outline: none;
-  border-color: var(--cor-primaria);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-}
-
-.campo-cor {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.campo-cor input[type="color"] {
-  width: 55px;
-  height: 40px;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-}
-
-.campo-cor output {
-  font-weight: 700;
-  color: var(--texto-secundario);
-}
-
-/* ========================================= BOTÕES ========================================= */
-.controles {
-  display: flex;
-  gap: 0.625rem;
-  flex-wrap: wrap;
-  margin-top: 1.25rem;
-}
-
-button {
-  background-color: var(--cor-primaria);
-  color: var(--texto-inverso);
-  border: none;
-  padding: 0.6875rem 1rem;
-  border-radius: var(--raio-medio);
-  cursor: pointer;
-  font-family: inherit;
-  font-weight: 600;
-  font-size: 0.875rem;
-  transition: background-color var(--transicao-padrao), transform var(--transicao-padrao);
-}
-
-button:hover {
-  background-color: var(--cor-primaria-hover);
-  transform: translateY(-2px);
-}
-
-button:active {
-  transform: translateY(0);
-}
-
-button:focus-visible {
-  outline: 2px solid var(--cor-primaria);
-  outline-offset: 2px;
-}
-
-.botao-neutro {
-  background-color: var(--cor-neutro);
-}
-
-.botao-neutro:hover {
-  background-color: var(--cor-neutro-hover);
-}
-
-/* ========================================= STATUS DA CONEXÃO ========================================= */
-#statusConexao {
-  margin-top: 0.9375rem;
-  padding: 0.625rem;
-  background-color: var(--cor-primaria-fundo);
-  color: var(--cor-primaria-hover);
-  border-radius: 6px;
-  font-size: 0.8125rem;
-}
-
-.mensagem-crud {
-  margin-top: 0.9375rem;
-  font-size: 0.8125rem;
-}
-
-/* ========================================= LISTA DE JOGADORES & TABELA ========================================= */
+.painel-automatico,
 .lista-jogadores {
-  overflow: hidden;
+  background-color: var(--card-lago);
+  padding: 1.5rem;
+  border-radius: var(--raio-grande);
+  box-shadow: var(--sombra-lago);
+  border: 1px solid var(--borda-lago);
 }
 
+.painel-automatico {
+  border-top: 5px solid var(--pato-ouro);
+  background: linear-gradient(180deg, var(--pato-creme) 0%, #ffffff 35%);
+}
+
+.painel-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.painel-automatico h3,
+.lista-cabecalho h3 {
+  color: var(--lago-profundo);
+  font-size: 1.15rem;
+}
+
+.badge-ao-vivo {
+  background-color: var(--pato-bico);
+  color: var(--texto-inverso);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--raio-pilula);
+}
+
+.descricao-painel {
+  font-size: 0.84rem;
+  color: var(--texto-secundario);
+  margin-bottom: 1rem;
+}
+
+.lista-automatica {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  max-height: 440px;
+  overflow-y: auto;
+}
+
+.item-automatico {
+  background-color: var(--fundo-lago);
+  border: 1px solid var(--borda-lago);
+  border-left: 4px solid var(--lago-claro);
+  border-radius: var(--raio-medio);
+  padding: 0.7rem 0.85rem;
+  font-size: 0.84rem;
+  transition: transform var(--transicao-padrao);
+}
+
+.item-automatico:hover {
+  transform: translateX(3px);
+}
+
+.item-automatico strong {
+  color: var(--lago-profundo);
+}
+
+.item-automatico span {
+  display: block;
+  color: var(--texto-secundario);
+  font-size: 0.78rem;
+  margin-top: 0.15rem;
+}
+
+/* ========================================= TABELA & BOTÕES ========================================= */
 .lista-cabecalho {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 0.9375rem;
+  gap: 1rem;
   flex-wrap: wrap;
-  margin-bottom: 0.9375rem;
-}
-
-.lista-cabecalho h3 {
-  color: var(--cor-primaria-hover);
+  margin-bottom: 0.75rem;
 }
 
 .lista-cabecalho p {
   color: var(--texto-suave);
-  font-size: 0.8125rem;
+  font-size: 0.82rem;
 }
 
 .contador-registros {
-  background-color: var(--cor-primaria-suave);
-  color: var(--cor-primaria-hover);
-  padding: 0.4375rem 0.75rem;
+  background-color: var(--agua-superficie);
+  color: var(--lago-profundo);
+  border: 1px solid var(--agua-brilho);
+  padding: 0.4rem 0.8rem;
   border-radius: var(--raio-pilula);
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   font-weight: 700;
+}
+
+.controles {
+  display: flex;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  margin-top: 0.9rem;
+}
+
+button {
+  background-color: var(--lago-claro);
+  color: var(--texto-inverso);
+  border: none;
+  padding: 0.62rem 1rem;
+  border-radius: var(--raio-medio);
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: background-color var(--transicao-padrao), transform var(--transicao-padrao);
+}
+
+button:hover {
+  background-color: var(--lago-medio);
+  transform: translateY(-1px);
+}
+
+button:focus-visible {
+  outline: 2px solid var(--pato-bico);
+  outline-offset: 2px;
+}
+
+.botao-neutro {
+  background-color: var(--lago-profundo);
+}
+
+.botao-neutro:hover {
+  background-color: #124450;
+}
+
+.botao-perigo {
+  background-color: var(--pato-bico);
+}
+
+.botao-perigo:hover {
+  background-color: var(--pato-bico-escuro);
 }
 
 .tabela-responsiva {
   width: 100%;
   overflow-x: auto;
-  margin-top: 1.25rem;
+  margin-top: 1.1rem;
 }
 
 .tabela-jogadores {
   width: 100%;
   border-collapse: collapse;
-  min-width: 500px;
+  min-width: 520px;
 }
 
 .tabela-jogadores th {
-  background-color: var(--cor-escura);
+  background-color: var(--lago-profundo);
   color: var(--texto-inverso);
-  padding: 0.8125rem;
+  padding: 0.8rem;
   text-align: left;
-  font-size: 0.8125rem;
+  font-size: 0.82rem;
+}
+
+.tabela-jogadores th:first-child {
+  border-top-left-radius: var(--raio-medio);
+}
+
+.tabela-jogadores th:last-child {
+  border-top-right-radius: var(--raio-medio);
 }
 
 .tabela-jogadores td {
   padding: 0.75rem;
-  border-bottom: 1px solid var(--cor-borda-suave);
-  font-size: 0.8125rem;
+  border-bottom: 1px solid var(--borda-suave);
+  font-size: 0.84rem;
 }
 
 .tabela-jogadores tbody tr:hover {
-  background-color: var(--cor-superficie-hover);
+  background-color: var(--card-hover);
+}
+
+.acoes-registro {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
 }
 
 .tabela-jogadores button {
-  padding: 0.4375rem 0.625rem;
-  font-size: 0.75rem;
-  margin: 0.1875rem;
+  padding: 0.4rem 0.65rem;
+  font-size: 0.76rem;
 }
 
 .lista-vazia {
   text-align: center;
   color: var(--texto-suave);
-  padding: 1.5625rem;
-  font-size: 0.875rem;
+  padding: 1.5rem;
+  font-size: 0.88rem;
 }
 
 /* ========================================= RODAPÉ ========================================= */
 .rodape {
-  background-color: var(--cor-escura);
-  color: var(--cor-borda);
+  background-color: var(--lago-profundo);
+  color: var(--texto-claro);
   text-align: center;
-  padding: 1.5625rem;
+  padding: 1.4rem;
   margin-top: 2.5rem;
-  font-size: 0.8125rem;
-}
-
-.rodape a {
-  color: var(--cor-destaque-claro);
-  text-decoration: none;
-}
-
-.rodape a:hover {
-  text-decoration: underline;
+  font-size: 0.82rem;
+  border-top: 3px solid var(--pato-ouro);
 }
 
 /* ========================================= RESPONSIVIDADE ========================================= */
-@media (max-width: 850px) {
+@media (max-width: 860px) {
   .crud-layout {
     grid-template-columns: 1fr;
   }
-
-  .portal-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .portal-nav {
-    width: 100%;
-  }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 520px) {
   main {
     width: 94%;
-  }
-
-  .introducao {
-    padding: 1.25rem;
-  }
-
-  .introducao h2 {
-    font-size: 1.3125rem;
-  }
-
-  .crud-form,
-  .lista-jogadores,
-  .bloco-conceito {
-    padding: 1.125rem;
   }
 
   .controles button {

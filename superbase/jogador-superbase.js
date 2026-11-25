@@ -1,49 +1,27 @@
 (function () {
   "use strict";
 
-  const form = document.getElementById("formJogadorSupabase");
-  const campoNome = document.getElementById("nomeJogadorSupabase");
-  const campoNick = document.getElementById("nickJogadorSupabase");
-  const campoIdade = document.getElementById("idadeJogadorSupabase");
-  const campoScore = document.getElementById("scoreJogadorSupabase");
+  // CONFIGURAÇÃO FIXA DO SEU BANCO SUPABASE
+  const SUPABASE_URL = "https://dlprrgaslanlxpibiuof.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_2xJp9pOMCrmoopTJUVzgVA_faUcL8Uz";
+  const PAGINA_JOGO = "http://127.0.0.1:5500/game/pato.html";
 
-  const tituloFormulario = document.getElementById("tituloFormularioSupabase");
-  const btnSalvar = document.getElementById("btnSalvarSupabase");
-  const btnCancelar = document.getElementById("btnCancelarSupabase");
-  const btnConectar = document.getElementById("btnConectar");
-  const btnDesconectar = document.getElementById("btnDesconectar");
   const btnAtualizar = document.getElementById("btnAtualizarLista");
-  const campoUrl = document.getElementById("supabaseUrl");
-  const campoChave = document.getElementById("supabaseKey");
   const statusConexao = document.getElementById("statusConexao");
-  const mensagem = document.getElementById("mensagemCrudSupabase");
   const lista = document.getElementById("listaJogadoresSupabase");
   const listaVazia = document.getElementById("listaVaziaSupabase");
   const contador = document.getElementById("contadorSupabase");
+  const listaAutomatica = document.getElementById("listaAutomaticaCadastros");
+  const listaAutomaticaVazia = document.getElementById("listaAutomaticaVazia");
 
   let cliente = null;
-  let idEmEdicao = null;
   let jogadores = [];
+  let canalRealtime = null;
 
-  function mostrarStatus(elemento, texto, tipo) {
-    elemento.textContent = texto;
-    elemento.dataset.tipo = tipo || "info";
-  }
-
-  function mostrarErro(erro, contexto) {
-    console.error(contexto, erro);
-    const detalhe = erro && erro.message ? erro.message : "Verifique a conexão e as permissões da tabela.";
-    mostrarStatus(mensagem, contexto + " " + detalhe, "erro");
-  }
-
-  function limparFormulario() {
-    form.reset();
-    if (campoScore) campoScore.value = "0";
-    if (campoIdade) campoIdade.value = "18";
-    idEmEdicao = null;
-    tituloFormulario.textContent = "Cadastrar astronauta no Supabase";
-    btnSalvar.textContent = "Cadastrar no banco";
-    btnCancelar.hidden = true;
+  function mostrarStatus(texto) {
+    if (statusConexao) {
+      statusConexao.textContent = texto;
+    }
   }
 
   function celula(texto) {
@@ -62,27 +40,74 @@
     return elemento;
   }
 
-  async function carregarJogadores() {
-    if (!cliente) {
-      mostrarStatus(statusConexao, "Conecte-se ao Supabase antes de consultar.", "erro");
+  function adicionarNaListaAutomatica(jogador, origem) {
+    if (!listaAutomatica || !jogador) return;
+
+    if (listaAutomaticaVazia) {
+      listaAutomaticaVazia.hidden = true;
+    }
+
+    const item = document.createElement("li");
+    item.className = "item-automatico";
+
+    const titulo = document.createElement("strong");
+    titulo.textContent = `${jogador.nickname || "Sem nick"} (${jogador.nome || "Sem nome"})`;
+
+    const detalhes = document.createElement("span");
+    detalhes.textContent = `${origem} • Idade: ${jogador.idade ?? "-"} • Score: ${jogador.score ?? 0}`;
+
+    item.append(titulo, detalhes);
+    listaAutomatica.prepend(item);
+  }
+
+  function sincronizarListaAutomaticaCompleta() {
+    if (!listaAutomatica) return;
+    listaAutomatica.replaceChildren();
+
+    if (!jogadores.length) {
+      if (listaAutomaticaVazia) listaAutomaticaVazia.hidden = false;
       return;
     }
 
-    mostrarStatus(statusConexao, "Consultando public.astronauta...", "info");  
-    const resposta = await cliente  
-        .from("astronauta")  
-        .select("id_astro, nome, nickname, idade, genero, score")  
-        .order("score", { ascending: false });  
+    if (listaAutomaticaVazia) listaAutomaticaVazia.hidden = true;
 
-    if (resposta.error) {  
-        mostrarErro(resposta.error, "Falha ao consultar astronautas:");  
-        mostrarStatus(statusConexao, "Consulta não concluída. Confira RLS e nome da tabela.", "erro");  
-        return;  
-    }  
+    jogadores.forEach(function (jogador) {
+      const item = document.createElement("li");
+      item.className = "item-automatico";
 
-    jogadores = resposta.data || [];  
-    renderizar();  
-    mostrarStatus(statusConexao, "Conectado. " + jogadores.length + " astronauta(s) recuperado(s).", "sucesso");
+      const titulo = document.createElement("strong");
+      titulo.textContent = `${jogador.nickname} — ${jogador.nome}`;
+
+      const detalhes = document.createElement("span");
+      detalhes.textContent = `Idade: ${jogador.idade} anos • Score: ${jogador.score ?? 0}`;
+
+      item.append(titulo, detalhes);
+      listaAutomatica.appendChild(item);
+    });
+  }
+
+  async function carregarJogadores() {
+    if (!cliente) {
+      mostrarStatus("Cliente Supabase não inicializado.");
+      return;
+    }
+
+    mostrarStatus("Consultando astronautas no lago...");
+    const resposta = await cliente
+      .from("astronauta")
+      .select("id_astro, nome, nickname, idade, genero, score")
+      .order("id_astro", { ascending: false });
+
+    if (resposta.error) {
+      console.error("Erro ao consultar astronautas:", resposta.error);
+      mostrarStatus("Erro ao buscar dados. Confira a tabela e as políticas RLS.");
+      return;
+    }
+
+    jogadores = resposta.data || [];
+    renderizar();
+    sincronizarListaAutomaticaCompleta();
+    mostrarStatus(`Conectado ao lago • ${jogadores.length} astronauta(s) carregado(s).`);
   }
 
   function renderizar() {
@@ -91,148 +116,103 @@
     listaVazia.hidden = jogadores.length > 0;
     listaVazia.textContent = jogadores.length ? "" : "Nenhum astronauta encontrado na tabela.";
 
-    jogadores.forEach(function (jogador) {  
-        const linha = document.createElement("tr");  
-        linha.appendChild(celula(jogador.id_astro));  
-        linha.appendChild(celula(jogador.nome));  
-        linha.appendChild(celula(jogador.nickname));  
-        linha.appendChild(celula(jogador.idade));  
-        linha.appendChild(celula(jogador.score));  
+    jogadores.forEach(function (jogador) {
+      const linha = document.createElement("tr");
+      linha.appendChild(celula(jogador.id_astro));
+      linha.appendChild(celula(jogador.nome));
+      linha.appendChild(celula(jogador.nickname));
+      linha.appendChild(celula(jogador.idade));
+      linha.appendChild(celula(jogador.score));
 
-        const tdAcoes = document.createElement("td");  
-        const acoes = document.createElement("div");  
-        acoes.className = "acoes-registro";  
+      const tdAcoes = document.createElement("td");
+      const acoes = document.createElement("div");
+      acoes.className = "acoes-registro";
 
-        // Botão Jogar direto do banco
-        acoes.appendChild(botao("Jogar", "botao-pequeno", function () {  
-            const dadosJogador = JSON.stringify(jogador);
-            localStorage.setItem("jogadorAtual", dadosJogador);
-            localStorage.setItem("astronauta", dadosJogador);
-            window.location.href = "http://127.0.0.1:5500/game/pato.html";
-        }, "Jogar com " + jogador.nickname));  
+      acoes.appendChild(
+        botao("Jogar", "botao-pequeno", function () {
+          const dadosJogador = JSON.stringify(jogador);
+          localStorage.setItem("jogadorAtual", dadosJogador);
+          localStorage.setItem("astronauta", dadosJogador);
+          window.location.href = PAGINA_JOGO;
+        }, "Jogar com " + jogador.nickname)
+      );
 
-        acoes.appendChild(botao("Editar", "botao-pequeno botao-neutro", function () {  
-            iniciarEdicao(jogador);  
-        }, "Editar " + jogador.nickname));  
+      acoes.appendChild(
+        botao("Excluir", "botao-pequeno botao-perigo", function () {
+          excluirJogador(jogador);
+        }, "Excluir " + jogador.nickname)
+      );
 
-        acoes.appendChild(botao("Excluir", "botao-pequeno botao-perigo", function () {  
-            excluirJogador(jogador);  
-        }, "Excluir " + jogador.nickname));  
-
-        tdAcoes.appendChild(acoes);  
-        linha.appendChild(tdAcoes);  
-        lista.appendChild(linha);  
+      tdAcoes.appendChild(acoes);
+      linha.appendChild(tdAcoes);
+      lista.appendChild(linha);
     });
-  }
-
-  function iniciarEdicao(jogador) {
-    idEmEdicao = jogador.id_astro;
-    campoNome.value = jogador.nome || "";
-    campoNick.value = jogador.nickname || "";
-    campoIdade.value = jogador.idade || 18;
-    campoScore.value = jogador.score || 0;
-
-    tituloFormulario.textContent = "Editar astronauta (ID " + jogador.id_astro + ")";
-    btnSalvar.textContent = "Salvar alterações";
-    btnCancelar.hidden = false;
-    campoNome.focus();
   }
 
   async function excluirJogador(jogador) {
     if (!window.confirm(`Deseja excluir "${jogador.nickname}" do banco de dados?`)) return;
 
-    const resposta = await cliente  
-        .from("astronauta")  
-        .delete()  
-        .eq("id_astro", jogador.id_astro);  
+    const resposta = await cliente
+      .from("astronauta")
+      .delete()
+      .eq("id_astro", jogador.id_astro);
 
-    if (resposta.error) {  
-        mostrarErro(resposta.error, "Não foi possível excluir:");  
-        return;  
-    }  
-
-    if (idEmEdicao === jogador.id_astro) limparFormulario();  
-    mostrarStatus(mensagem, "Astronauta excluído do PostgreSQL.", "sucesso");  
-    await carregarJogadores();
-  }
-
-  async function conectar() {
-    const url = campoUrl.value.trim();
-    const chave = campoChave.value.trim();
-
-    if (!url || !chave || url.indexOf("https://") !== 0) {  
-        mostrarStatus(statusConexao, "Informe uma Project URL válida e a chave pública.", "erro");  
-        return;  
-    }  
-    if (!window.supabase || typeof window.supabase.createClient !== "function") {  
-        mostrarStatus(statusConexao, "A biblioteca Supabase não foi carregada.", "erro");  
-        return;  
-    }  
-
-    try {  
-        cliente = window.supabase.createClient(url, chave);  
-        await carregarJogadores();  
-    } catch (erro) {  
-        cliente = null;  
-        mostrarErro(erro, "Não foi possível iniciar a conexão:");  
-    }
-  }
-
-  form.addEventListener("submit", async function (evento) {
-    evento.preventDefault();
-    if (!cliente) {
-      mostrarStatus(mensagem, "Conecte-se ao Supabase antes de salvar.", "erro");
+    if (resposta.error) {
+      console.error("Erro ao excluir:", resposta.error);
+      alert("Não foi possível excluir o astronauta.");
       return;
     }
 
-    const nome = campoNome.value.trim();  
-    const nickname = campoNick.value.trim();
-    const idade = Number(campoIdade.value);
-    const score = Number(campoScore.value);
-
-    if (!nome || !nickname) {  
-        mostrarStatus(mensagem, "Preencha o nome e o nick.", "erro");  
-        return;  
-    }  
-
-    const dados = { 
-      nome: nome, 
-      nickname: nickname, 
-      idade: idade, 
-      score: score 
-    };  
-    let resposta;  
-
-    if (idEmEdicao !== null) {  
-        resposta = await cliente.from("astronauta").update(dados).eq("id_astro", idEmEdicao);  
-    } else {  
-        resposta = await cliente.from("astronauta").insert([dados]);  
-    }  
-
-    if (resposta.error) {  
-        mostrarErro(resposta.error, "Não foi possível salvar:");  
-        return;  
-    }  
-
-    mostrarStatus(mensagem, idEmEdicao !== null ? "Astronauta atualizado!" : "Astronauta cadastrado!", "sucesso");  
-    limparFormulario();  
     await carregarJogadores();
-  });
+  }
 
-  btnConectar.addEventListener("click", conectar);
-  btnDesconectar.addEventListener("click", function () {
-    cliente = null;
-    jogadores = [];
-    renderizar();
-    mostrarStatus(statusConexao, "Desconectado.", "info");
-  });
-  btnAtualizar.addEventListener("click", carregarJogadores);
-  btnCancelar.addEventListener("click", function () {
-    limparFormulario();
-    mostrarStatus(mensagem, "Edição cancelada.", "info");
-  });
+  function ativarEscutaAutomatica() {
+    if (!cliente || typeof cliente.channel !== "function") return;
 
-  const config = window.SUPABASE_CONFIG || {};
-  if (config.url) campoUrl.value = config.url;
-  if (config.anonKey) campoChave.value = config.anonKey;
+    if (canalRealtime) {
+      cliente.removeChannel(canalRealtime);
+    }
+
+    canalRealtime = cliente
+      .channel("astronautas-automaticos")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "astronauta" },
+        async function (payload) {
+          adicionarNaListaAutomatica(payload.new, "Novo cadastro");
+          await carregarJogadores();
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "astronauta" },
+        async function (payload) {
+          adicionarNaListaAutomatica(payload.new, "Atualizado");
+          await carregarJogadores();
+        }
+      )
+      .subscribe();
+  }
+
+  async function iniciarAutomatico() {
+    if (!window.supabase || typeof window.supabase.createClient !== "function") {
+      mostrarStatus("Biblioteca do Supabase não carregou.");
+      return;
+    }
+
+    if (!SUPABASE_URL || SUPABASE_URL.includes("https://dlprrgaslanlxpibiuof.supabase.co") || !SUPABASE_ANON_KEY || SUPABASE_ANON_KEY.includes("sb_publishable_2xJp9pOMCrmoopTJUVzgVA_faUcL8Uz")) {
+      mostrarStatus("Preencha SUPABASE_URL e SUPABASE_ANON_KEY no arquivo JS.");
+      return;
+    }
+
+    cliente = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    ativarEscutaAutomatica();
+    await carregarJogadores();
+  }
+
+  if (btnAtualizar) {
+    btnAtualizar.addEventListener("click", carregarJogadores);
+  }
+
+  iniciarAutomatico();
 })();
