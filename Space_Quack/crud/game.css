@@ -1,0 +1,492 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+    background:
+        radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.75) 0 1px, transparent 2px),
+        radial-gradient(circle at 82% 24%, rgba(186, 224, 255, 0.7) 0 1px, transparent 2px),
+        radial-gradient(circle at 68% 68%, rgba(255, 232, 194, 0.65) 0 1px, transparent 2px),
+        radial-gradient(circle at 28% 76%, rgba(255, 255, 255, 0.65) 0 1px, transparent 2px),
+        radial-gradient(ellipse 135% 42% at 50% 48%, rgba(62, 118, 178, 0.14), rgba(145, 98, 185, 0.08) 48%, transparent 74%),
+        radial-gradient(circle at 50% 50%, #05060b 0%, #010103 75%);
+    background-size:
+        190px 190px,
+        250px 250px,
+        290px 290px,
+        230px 230px,
+        100% 100%,
+        100% 100%;
+    color: #dbe6f2;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    overflow-x: hidden;
+    position: relative;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    width: 390px;
+    height: 390px;
+    border-radius: 50%;
+    left: -135px;
+    bottom: -135px;
+    background:
+        radial-gradient(circle at 50% 50%, #000000 0 43%, rgba(255, 169, 77, 0.9) 45%, rgba(255, 115, 36, 0.55) 54%, rgba(79, 156, 227, 0.18) 64%, transparent 74%);
+    box-shadow:
+        0 0 65px rgba(255, 148, 56, 0.24),
+        inset 0 0 36px #000000;
+    opacity: 0.92;
+    z-index: -1;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    right: -85px;
+    top: 75px;
+    background:
+        radial-gradient(circle at 35% 35%, rgba(214, 236, 255, 0.45), rgba(88, 128, 184, 0.14) 55%, transparent 72%);
+    box-shadow: 0 0 50px rgba(96, 155, 220, 0.14);
+    opacity: 0.85;
+    z-index: -1;
+}
+
+.btn-dados {
+    position: fixed;
+    top: 20px;
+    right: 24px;
+    z-index: 10;
+    padding: 10px 18px;
+    background: rgba(11, 16, 28, 0.85);
+    border: 1px solid rgba(255, 176, 87, 0.55);
+    border-radius: 8px;
+    color: #ffd39b;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    transition: all 0.25s ease;
+}
+
+.btn-dados:hover {
+    background: rgba(255, 159, 67, 0.18);
+    color: #ffffff;
+    border-color: #ffbe6b;
+    box-shadow: 0 0 22px rgba(255, 166, 77, 0.35);
+    transform: translateY(-2px);
+}
+
+.br {
+    margin-bottom: 28px;
+    text-align: center;
+}
+
+.br h1 {
+    font-size: 2.5rem;
+    color: #f0f6fc;
+    font-weight: 700;
+    letter-spacing: 7px;
+    text-shadow:
+        0 0 14px rgba(130, 190, 255, 0.45),
+        0 0 38px rgba(255, 165, 70, 0.2);
+}
+
+.container {
+    background:
+        linear-gradient(
+            150deg,
+            rgba(12, 18, 32, 0.88),
+            rgba(4, 6, 12, 0.94)
+        );
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(126, 168, 214, 0.24);
+    border-radius: 18px;
+    padding: 32px;
+    width: 100%;
+    max-width: 860px;
+    box-shadow:
+        0 25px 65px rgba(0, 0, 0, 0.9),
+        0 0 40px rgba(255, 155, 65, 0.08);
+}
+
+form {
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+form h2 {
+    font-size: 1.2rem;
+    color: #e6f0fa;
+    margin-bottom: 20px;
+    text-align: center;
+    letter-spacing: 3px;
+    font-weight: 600;
+}
+
+form p {
+    font-size: 0.75rem;
+    color: #8ea9c7;
+    margin-top: 15px;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+}
+
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    padding: 12px 16px;
+    background: rgba(3, 5, 10, 0.85);
+    border: 1px solid rgba(116, 153, 196, 0.3);
+    border-radius: 8px;
+    color: #eef5fc;
+    font-size: 0.95rem;
+    transition: all 0.25s ease;
+}
+
+input[type="text"]::placeholder,
+input[type="number"]::placeholder {
+    color: #55677d;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+    outline: none;
+    border-color: #7cc4ff;
+    background: rgba(9, 15, 28, 0.95);
+    box-shadow: 0 0 14px rgba(124, 196, 255, 0.24);
+}
+
+input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 17px;
+    height: 17px;
+    margin: 6px 8px 6px 0;
+    vertical-align: middle;
+    background: rgba(4, 6, 12, 0.85);
+    border: 1px solid rgba(126, 168, 214, 0.45);
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+input[type="radio"]:checked {
+    border-color: #ffba69;
+    background: rgba(255, 168, 76, 0.22);
+    box-shadow: 0 0 10px rgba(255, 168, 76, 0.35);
+}
+
+input[type="radio"]:checked::after {
+    content: "";
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    background: #ffd59e;
+    border-radius: 50%;
+    top: 4px;
+    left: 4px;
+}
+
+label {
+    font-size: 0.85rem;
+    cursor: pointer;
+    color: #a9bfd8;
+    margin-right: 12px;
+    letter-spacing: 1px;
+    vertical-align: middle;
+}
+
+#ENVIAR,
+.btn-cancelar {
+    width: 100%;
+    padding: 13px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+#ENVIAR {
+    background: linear-gradient(135deg, #d97724, #9c4712);
+    border: 1px solid #ffba69;
+    color: #fff8ee;
+}
+
+#ENVIAR:hover {
+    background: linear-gradient(135deg, #f28d35, #b55519);
+    color: #ffffff;
+    box-shadow: 0 0 24px rgba(255, 154, 60, 0.42);
+    transform: translateY(-2px);
+}
+
+.btn-cancelar {
+    margin-top: 10px;
+    background: rgba(24, 34, 52, 0.85);
+    border: 1px solid rgba(130, 190, 255, 0.35);
+    color: #c5dcf5;
+}
+
+.btn-cancelar:hover {
+    background: rgba(40, 56, 84, 0.95);
+    color: #ffffff;
+}
+
+#contador {
+    text-align: center;
+    color: #ffd39b;
+    font-size: 0.88rem;
+    font-weight: 700;
+    margin-bottom: 22px;
+    letter-spacing: 2px;
+}
+
+/* Grade de 4 Slots em formato de ficha/torre */
+#listaJogadores {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    width: 100%;
+}
+
+.card {
+    min-height: 310px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background:
+        linear-gradient(
+            165deg,
+            rgba(20, 31, 54, 0.88),
+            rgba(5, 8, 16, 0.96)
+        );
+    border: 1px solid rgba(126, 168, 214, 0.3);
+    border-radius: 14px;
+    padding: 22px;
+    box-shadow: 0 16px 38px rgba(0, 0, 0, 0.8);
+    transition: all 0.25s ease;
+}
+
+.card:hover {
+    border-color: rgba(255, 184, 99, 0.6);
+    transform: translateY(-3px);
+    box-shadow:
+        0 18px 42px rgba(0, 0, 0, 0.9),
+        0 0 24px rgba(255, 165, 70, 0.14);
+}
+
+.card-topo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    border-bottom: 1px solid rgba(126, 168, 214, 0.2);
+    padding-bottom: 12px;
+    margin-bottom: 14px;
+}
+
+.card-identidade {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.icone-genero {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+    background: rgba(255, 186, 105, 0.14);
+    border: 1px solid rgba(255, 186, 105, 0.45);
+    color: #ffd39b;
+}
+
+.slot-tag {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: #8ea9c7;
+}
+
+.card h3 {
+    color: #ffd39b;
+    font-size: 1.15rem;
+    letter-spacing: 1px;
+}
+
+.card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-bottom: 18px;
+}
+
+.card p {
+    font-size: 0.86rem;
+    color: #9bb3ce;
+}
+
+.card p strong {
+    color: #eef5fc;
+}
+
+.score-destaque {
+    margin-top: 4px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: rgba(124, 196, 255, 0.09);
+    border: 1px solid rgba(124, 196, 255, 0.25);
+    color: #d9eeff !important;
+}
+
+.acoes {
+    display: flex;
+    gap: 8px;
+    margin-top: auto;
+}
+
+.acoes button {
+    flex: 1;
+    padding: 9px 6px;
+    border-radius: 7px;
+    font-weight: 700;
+    font-size: 0.76rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-jogar-ficha {
+    background: linear-gradient(135deg, #24588c, #132f4d);
+    border: 1px solid rgba(130, 190, 255, 0.5);
+    color: #e6f3ff;
+}
+
+.btn-jogar-ficha:hover {
+    background: linear-gradient(135deg, #2f6fb0, #193f66);
+    color: #ffffff;
+}
+
+.btn-editar-ficha {
+    background: rgba(217, 119, 36, 0.2);
+    border: 1px solid rgba(255, 186, 105, 0.55);
+    color: #ffd39b;
+}
+
+.btn-editar-ficha:hover {
+    background: rgba(217, 119, 36, 0.42);
+    color: #ffffff;
+}
+
+.botao-excluir {
+    background: rgba(65, 18, 26, 0.7);
+    border: 1px solid rgba(240, 105, 125, 0.45);
+    color: #f3b2bc;
+}
+
+.botao-excluir:hover {
+    background: rgba(145, 34, 52, 0.9);
+    color: #ffffff;
+    border-color: #ff99a8;
+}
+
+/* Slot Vazio */
+.card-vazio {
+    min-height: 310px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    background: rgba(6, 9, 18, 0.75);
+    border: 1px dashed rgba(126, 168, 214, 0.28);
+    border-radius: 14px;
+    padding: 22px;
+    text-align: center;
+}
+
+.icone-vazio {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    border: 1px dashed rgba(126, 168, 214, 0.35);
+    color: #5c738f;
+    font-size: 1.2rem;
+}
+
+.texto-vazio {
+    color: #6c8099;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+}
+
+.btn-criar-slot {
+    padding: 10px 16px;
+    border-radius: 8px;
+    background: rgba(255, 168, 76, 0.14);
+    border: 1px solid rgba(255, 186, 105, 0.5);
+    color: #ffd39b;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-criar-slot:hover {
+    background: rgba(255, 168, 76, 0.28);
+    color: #ffffff;
+}
+
+@media (max-width: 720px) {
+    #listaJogadores {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 65px 12px 25px;
+    }
+
+    .btn-dados {
+        top: 14px;
+        right: 14px;
+        padding: 8px 14px;
+        font-size: 0.78rem;
+    }
+
+    .br h1 {
+        font-size: 1.8rem;
+        letter-spacing: 4px;
+    }
+
+    .container {
+        padding: 22px 16px;
+    }
+
+    .acoes {
+        flex-direction: column;
+    }
+}

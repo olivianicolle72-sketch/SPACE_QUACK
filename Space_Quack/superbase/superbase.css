@@ -1,0 +1,406 @@
+/* ========================================= VARIÁVEIS — LAGO & PATO ========================================= */
+:root {
+  /* Tons de Lago e Água */
+  --lago-profundo: #082f38;
+  --lago-medio: #0f4c5c;
+  --lago-claro: #1b7a8c;
+  --agua-superficie: #d8f3dc;
+  --agua-brilho: #95d5b2;
+  --fundo-lago: #e6f4f1;
+  --card-lago: #ffffff;
+  --card-hover: #f2fbf8;
+
+  /* Tons de Pato (Bico, Penas Douradas e Patinhas) */
+  --pato-ouro: #f4a261;
+  --pato-bico: #e76f51;
+  --pato-bico-escuro: #c8553d;
+  --pato-creme: #fff8e7;
+
+  /* Textos e Bordas */
+  --texto-lago: #0b252c;
+  --texto-secundario: #355f6b;
+  --texto-suave: #5c838e;
+  --texto-claro: #b7e4c7;
+  --texto-inverso: #ffffff;
+  --borda-lago: #b7d7d0;
+  --borda-suave: #d8ebe6;
+
+  --fonte-base: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  --raio-pequeno: 5px;
+  --raio-medio: 9px;
+  --raio-grande: 14px;
+  --raio-pilula: 9999px;
+  --sombra-lago: 0 8px 24px rgba(8, 47, 56, 0.08);
+  --transicao-padrao: 0.25s ease;
+}
+
+/* ========================================= BASE ========================================= */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--fonte-base);
+  background:
+    radial-gradient(circle at 12% 15%, rgba(244, 162, 97, 0.16), transparent 28%),
+    radial-gradient(circle at 88% 12%, rgba(27, 122, 140, 0.16), transparent 32%),
+    linear-gradient(180deg, #dff1ee 0%, var(--fundo-lago) 55%, #cce7e2 100%);
+  color: var(--texto-lago);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+code {
+  background-color: var(--agua-superficie);
+  color: var(--lago-profundo);
+  padding: 0.2rem 0.45rem;
+  border-radius: var(--raio-pequeno);
+  font-size: 0.85em;
+  font-weight: 600;
+}
+
+/* ========================================= CABEÇALHO ========================================= */
+.portal-header {
+  background: linear-gradient(90deg, var(--lago-profundo), var(--lago-medio));
+  color: var(--texto-inverso);
+  padding: 1.25rem 7%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  border-bottom: 3px solid var(--pato-ouro);
+}
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.simbolo {
+  font-size: 2.5rem;
+  line-height: 1;
+  background: var(--pato-creme);
+  padding: 0.35rem 0.5rem;
+  border-radius: var(--raio-medio);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.marca h1 {
+  font-size: 1.4rem;
+  line-height: 1.2;
+  letter-spacing: 1px;
+}
+
+.submarca {
+  color: var(--texto-claro);
+  font-size: 0.82rem;
+}
+
+.portal-nav {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.portal-nav a {
+  color: var(--texto-inverso);
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 0.5rem 0.9rem;
+  border-radius: var(--raio-pequeno);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: background-color var(--transicao-padrao), border-color var(--transicao-padrao);
+}
+
+.portal-nav a:hover,
+.portal-nav a:focus-visible {
+  background-color: var(--pato-bico);
+  border-color: var(--pato-ouro);
+  outline: none;
+}
+
+/* ========================================= CONTEÚDO PRINCIPAL ========================================= */
+main {
+  width: min(92%, 1180px);
+  margin: 2rem auto;
+  flex: 1;
+}
+
+.introducao {
+  background: linear-gradient(135deg, var(--lago-medio), var(--lago-profundo));
+  color: var(--texto-inverso);
+  padding: 1.75rem;
+  border-radius: var(--raio-grande);
+  margin-bottom: 1.5rem;
+  box-shadow: var(--sombra-lago);
+  border-left: 6px solid var(--pato-ouro);
+}
+
+.introducao h2 {
+  font-size: 1.55rem;
+  margin-bottom: 0.5rem;
+}
+
+.introducao p {
+  color: var(--agua-superficie);
+}
+
+.status-lago {
+  margin-top: 0.9rem;
+  display: inline-block;
+  padding: 0.35rem 0.8rem;
+  border-radius: var(--raio-pilula);
+  background-color: rgba(255, 255, 255, 0.14);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+/* ========================================= LAYOUT & PAINEL AUTOMÁTICO ========================================= */
+.crud-layout {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.painel-automatico,
+.lista-jogadores {
+  background-color: var(--card-lago);
+  padding: 1.5rem;
+  border-radius: var(--raio-grande);
+  box-shadow: var(--sombra-lago);
+  border: 1px solid var(--borda-lago);
+}
+
+.painel-automatico {
+  border-top: 5px solid var(--pato-ouro);
+  background: linear-gradient(180deg, var(--pato-creme) 0%, #ffffff 35%);
+}
+
+.painel-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.painel-automatico h3,
+.lista-cabecalho h3 {
+  color: var(--lago-profundo);
+  font-size: 1.15rem;
+}
+
+.badge-ao-vivo {
+  background-color: var(--pato-bico);
+  color: var(--texto-inverso);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--raio-pilula);
+}
+
+.descricao-painel {
+  font-size: 0.84rem;
+  color: var(--texto-secundario);
+  margin-bottom: 1rem;
+}
+
+.lista-automatica {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  max-height: 440px;
+  overflow-y: auto;
+}
+
+.item-automatico {
+  background-color: var(--fundo-lago);
+  border: 1px solid var(--borda-lago);
+  border-left: 4px solid var(--lago-claro);
+  border-radius: var(--raio-medio);
+  padding: 0.7rem 0.85rem;
+  font-size: 0.84rem;
+  transition: transform var(--transicao-padrao);
+}
+
+.item-automatico:hover {
+  transform: translateX(3px);
+}
+
+.item-automatico strong {
+  color: var(--lago-profundo);
+}
+
+.item-automatico span {
+  display: block;
+  color: var(--texto-secundario);
+  font-size: 0.78rem;
+  margin-top: 0.15rem;
+}
+
+/* ========================================= TABELA & BOTÕES ========================================= */
+.lista-cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.lista-cabecalho p {
+  color: var(--texto-suave);
+  font-size: 0.82rem;
+}
+
+.contador-registros {
+  background-color: var(--agua-superficie);
+  color: var(--lago-profundo);
+  border: 1px solid var(--agua-brilho);
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--raio-pilula);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.controles {
+  display: flex;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  margin-top: 0.9rem;
+}
+
+button {
+  background-color: var(--lago-claro);
+  color: var(--texto-inverso);
+  border: none;
+  padding: 0.62rem 1rem;
+  border-radius: var(--raio-medio);
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: background-color var(--transicao-padrao), transform var(--transicao-padrao);
+}
+
+button:hover {
+  background-color: var(--lago-medio);
+  transform: translateY(-1px);
+}
+
+button:focus-visible {
+  outline: 2px solid var(--pato-bico);
+  outline-offset: 2px;
+}
+
+.botao-neutro {
+  background-color: var(--lago-profundo);
+}
+
+.botao-neutro:hover {
+  background-color: #124450;
+}
+
+.botao-perigo {
+  background-color: var(--pato-bico);
+}
+
+.botao-perigo:hover {
+  background-color: var(--pato-bico-escuro);
+}
+
+.tabela-responsiva {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 1.1rem;
+}
+
+.tabela-jogadores {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 520px;
+}
+
+.tabela-jogadores th {
+  background-color: var(--lago-profundo);
+  color: var(--texto-inverso);
+  padding: 0.8rem;
+  text-align: left;
+  font-size: 0.82rem;
+}
+
+.tabela-jogadores th:first-child {
+  border-top-left-radius: var(--raio-medio);
+}
+
+.tabela-jogadores th:last-child {
+  border-top-right-radius: var(--raio-medio);
+}
+
+.tabela-jogadores td {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--borda-suave);
+  font-size: 0.84rem;
+}
+
+.tabela-jogadores tbody tr:hover {
+  background-color: var(--card-hover);
+}
+
+.acoes-registro {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.tabela-jogadores button {
+  padding: 0.4rem 0.65rem;
+  font-size: 0.76rem;
+}
+
+.lista-vazia {
+  text-align: center;
+  color: var(--texto-suave);
+  padding: 1.5rem;
+  font-size: 0.88rem;
+}
+
+/* ========================================= RODAPÉ ========================================= */
+.rodape {
+  background-color: var(--lago-profundo);
+  color: var(--texto-claro);
+  text-align: center;
+  padding: 1.4rem;
+  margin-top: 2.5rem;
+  font-size: 0.82rem;
+  border-top: 3px solid var(--pato-ouro);
+}
+
+/* ========================================= RESPONSIVIDADE ========================================= */
+@media (max-width: 860px) {
+  .crud-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  main {
+    width: 94%;
+  }
+
+  .controles button {
+    width: 100%;
+  }
+}

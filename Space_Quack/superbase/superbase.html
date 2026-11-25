@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Painel de astronautas do SPACE QUACK conectado ao Supabase.">
+  <title>Lago de Dados — Astronautas & Supabase</title>
+  <link rel="stylesheet" href="superbase.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="portal-body">
+  <header class="portal-header">
+    <div class="marca">
+      <span class="simbolo" aria-hidden="true">🦆</span>
+      <div>
+        <h1>SPACE QUACK</h1>
+        <p class="submarca">Lago de Dados • Supabase & PostgreSQL</p>
+      </div>
+    </div>
+    <nav class="portal-nav">
+      <a href="../index.html">Cadastro</a>
+      <a href="http://127.0.0.1:5500/game/pato.html">Jogar</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="introducao">
+      <h2>Painel do Lago — Astronautas</h2>
+      <p>Os cadastros feitos no formulário principal aparecem aqui automaticamente e ficam sincronizados com <code>public.astronauta</code>.</p>
+      <p id="statusConexao" class="status-lago" role="status" aria-live="polite">Iniciando conexão com o lago...</p>
+    </section>
+
+    <section class="crud-layout">
+      <aside class="painel-automatico" aria-labelledby="tituloListaAutomatica">
+        <div class="painel-topo">
+          <h3 id="tituloListaAutomatica">🦆 Entradas Automáticas</h3>
+          <span class="badge-ao-vivo">AUTO</span>
+        </div>
+        <p class="descricao-painel">Sempre que um astronauta é cadastrado ou atualizado no banco, ele entra nesta fila automática.</p>
+        <ul id="listaAutomaticaCadastros" class="lista-automatica"></ul>
+        <p id="listaAutomaticaVazia" class="lista-vazia">Aguardando novos cadastros...</p>
+      </aside>
+
+      <section class="lista-jogadores" aria-labelledby="tituloListaSupabase">
+        <div class="lista-cabecalho">
+          <div>
+            <h3 id="tituloListaSupabase">Astronautas no PostgreSQL</h3>
+            <p>Dados recuperados diretamente da tabela <code>public.astronauta</code>.</p>
+          </div>
+          <span id="contadorSupabase" class="contador-registros">0 astronautas</span>
+        </div>
+
+        <div class="controles">
+          <button id="btnAtualizarLista" type="button" class="botao-neutro">Atualizar lista</button>
+        </div>
+
+        <div class="tabela-responsiva">
+          <table class="tabela-jogadores">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Nick</th>
+                <th>Idade</th>
+                <th>Score</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="listaJogadoresSupabase"></tbody>
+          </table>
+        </div>
+
+        <p id="listaVaziaSupabase" class="lista-vazia">Carregando registros do lago...</p>
+      </section>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <p><strong>SPACE QUACK</strong> — Lago Espacial & Supabase/PostgreSQL.</p>
+  </footer>
+
+  <script src="/superbase/jogador.config.js"></script>
+  <script src="/superbase/jogador-superbase.js"></script>
+</body>
+</html>

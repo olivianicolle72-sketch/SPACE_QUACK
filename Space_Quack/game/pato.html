@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPACE WALL</title>
+    <link rel="stylesheet" href="cenar.css">
+</head>
+<body>
+
+    <!-- TELA INICIAL -->
+    <div id="game-wrapper">
+        <h1 class="container">SPACE WALL</h1>
+        <button id="play" type="button">PLAY</button>
+    </div>
+
+    <!-- BOTÃO VOLTAR -->
+    <button id="Volta" type="button" aria-label="Voltar">ᐊ</button>
+
+    <!-- INFORMAÇÕES DO JOGADOR -->
+    <header id="jogador-info">
+        <span id="jogador-nickname"></span>
+
+        <div class="jogador-status">
+            <!-- VIDAS -->
+            <div id="vidas" aria-label="Três vidas restantes">
+                <img class="vida" src="/img%20Jogo/decoration/astrocora%C3%A7%C3%A3o.png" alt="Vida 1">
+                <img class="vida" src="/img%20Jogo/decoration/astrocora%C3%A7%C3%A3o.png" alt="Vida 2">
+                <img class="vida" src="/img%20Jogo/decoration/astrocora%C3%A7%C3%A3o.png" alt="Vida 3">
+            </div>
+
+            <!-- SCORE -->
+            <div id="score-container">
+                ⭐ SCORE: <span id="score">0</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- INSTRUÇÕES DO STEVEN -->
+    <aside id="mensagem-steven" aria-labelledby="steven-titulo">
+        <div class="steven-avatar" aria-hidden="true">
+            <img id="steven-imagem" src="/img%20Jogo/person/astroGN.png" alt="">
+        </div>
+
+        <div class="steven-conteudo">
+            <div class="steven-cabecalho">
+                <div>
+                    <h2 id="steven-titulo">Steven</h2>
+                    <span class="steven-status">● CENTRAL ESPACIAL</span>
+                </div>
+                <span class="steven-decoracao" aria-hidden="true">✦</span>
+            </div>
+
+            <p class="steven-saudacao">
+                Olá, astronauta! Prepare-se para sua missão!
+            </p>
+
+            <div class="steven-separador">PROTOCOLO DE DESVIO</div>
+
+            <ul class="steven-regras">
+                <li>
+                    <span class="regra-icone" aria-hidden="true">☄️</span>
+                    <span>
+                        <strong>Meteoro</strong>
+                        <small>1 pulo</small>
+                    </span>
+                </li>
+                <li>
+                    <span class="regra-icone" aria-hidden="true">👽</span>
+                    <span>
+                        <strong>Alien</strong>
+                        <small>2 pulos</small>
+                    </span>
+                </li>
+                <li>
+                    <span class="regra-icone" aria-hidden="true">⭐</span>
+                    <span>
+                        <strong>Estrela</strong>
+                        <small>3 pulos</small>
+                    </span>
+                </li>
+            </ul>
+
+            <div class="steven-alerta">
+                <span class="alerta-icone" aria-hidden="true">⚠️</span>
+                <p>
+                    <strong>Atenção!</strong>
+                    Evite tocar nos obstáculos, inclusive ao cair sobre eles.
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ASTRONAUTA DO JOGADOR -->
+    <main id="personagem-container">
+        <h2 id="jogador-nome"></h2>
+        <img id="personagem" src="" alt="Astronauta do jogador" draggable="false">
+    </main>
+
+    <!-- CENÁRIO E EFEITOS -->
+    <div id="area-obstaculos"></div>
+    <div id="lua-linha"></div>
+    <div id="tela-impacto" aria-hidden="true"></div>
+
+    <!-- GAME OVER -->
+    <section id="game-over" class="game-over" aria-labelledby="game-over-titulo">
+        <h2 id="game-over-titulo">GAME OVER</h2>
+        <p>Suas vidas acabaram, astronauta!</p>
+        <button id="reiniciar" type="button">REINICIAR</button>
+    </section>
+    <script src="game.js" defer></script>
+</body>
+</html>
